@@ -55,7 +55,7 @@ export default function UploadPage() {
 
     const formData = new FormData();
     formData.append("file", file);
-    const mlApiUrl = "http://18.136.194.249:8080/klasifikasi-sampah";
+    const mlApiUrl = "http://47.129.34.209:8080/klasifikasi-sampah";
 
     try {
       const mlResponse = await fetch(mlApiUrl, {
