@@ -2,37 +2,39 @@
 import { NextResponse } from "next/server";
 
 async function handler(request, context) {
+  // Dapatkan path dinamis (misal: 'classify', 'login', dll.)
   const path = context.params.path.join("/");
   const backendUrl = process.env.API_BASE_URL_SERVER;
 
   try {
+    // Teruskan request ke server backend dengan body dan header asli
     const response = await fetch(`${backendUrl}/${path}`, {
       method: request.method,
       headers: {
-        "Content-Type": "application/json",
+        // Teruskan header Authorization jika ada
         Authorization: request.headers.get("Authorization"),
+        // Untuk upload, biarkan `fetch` mengatur 'Content-Type' secara otomatis
+        // berdasarkan body. Jangan set manual.
+        "Content-Type": request.headers.get("content-type"),
       },
-      body: request.method !== "GET" ? await request.text() : null,
+      body: request.body, // Teruskan body sebagai stream
+      duplex: "half", // Wajib ada untuk streaming body di Node.js fetch
       cache: "no-store",
     });
 
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const data = await response.json();
-      return NextResponse.json(data, { status: response.status });
-    }
+    // Buat respons baru untuk dikirim kembali ke client
+    // Ini memastikan header dari backend juga diteruskan dengan benar
+    const responseHeaders = new Headers(response.headers);
+    const data = await response.text();
 
-    return new NextResponse(null, { status: response.status });
+    return new Response(data, {
+      status: response.status,
+      headers: responseHeaders,
+    });
   } catch (error) {
+    console.error("--- PROXY ERROR ---", error);
     return NextResponse.json(
-      {
-        message: "Proxy error: Could not connect to backend server.",
-        // Menambahkan detail error ke response agar bisa dilihat di browser
-        errorDetails: {
-          message: error.message,
-          cause: error.cause ? error.cause.code : "N/A",
-        },
-      },
+      { message: "Proxy error.", error: error.message },
       { status: 502 }
     );
   }
