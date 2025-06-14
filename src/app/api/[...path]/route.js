@@ -6,18 +6,15 @@ async function handler(request, context) {
   const backendUrl = process.env.API_BASE_URL_SERVER;
 
   try {
-    const response = await fetch(
-      `<span class="math-inline">\{backendUrl\}/</span>{path}`,
-      {
-        method: request.method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: request.headers.get("Authorization"),
-        },
-        body: request.method !== "GET" ? await request.text() : null,
-        cache: "no-store",
-      }
-    );
+    const response = await fetch(`${backendUrl}/${path}`, {
+      method: request.method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: request.headers.get("Authorization"),
+      },
+      body: request.method !== "GET" ? await request.text() : null,
+      cache: "no-store",
+    });
 
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
