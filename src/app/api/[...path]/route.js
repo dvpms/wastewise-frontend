@@ -24,13 +24,6 @@ async function handler(request, context) {
 
     return new NextResponse(null, { status: response.status });
   } catch (error) {
-    // ==========================================================
-    // PERUBAHAN UTAMA ADA DI SINI: MENAMBAHKAN LOGGING DETAIL
-    // ==========================================================
-    console.error("--- PROXY FETCH ERROR ---");
-    console.error(error); // Log seluruh objek error untuk detail
-    console.error("-------------------------");
-
     return NextResponse.json(
       {
         message: "Proxy error: Could not connect to backend server.",
