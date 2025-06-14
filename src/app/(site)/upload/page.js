@@ -62,12 +62,11 @@ export default function UploadPage() {
     try {
       const response = await axios.post(apiUrl, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
 
-      setResult(response.data); // Tampilkan hasil dari backend kita
+      setResult(response.data);
       Swal.fire(
         "Sukses!",
         "Poin berhasil ditambahkan ke akun Anda.",
