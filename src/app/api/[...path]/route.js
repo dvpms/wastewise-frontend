@@ -1,28 +1,57 @@
 // src/app/api/[...path]/route.js
 import { NextResponse } from "next/server";
 
-export async function handler(request, context) {
+async function handler(request, context) {
+  const path = context.params.path.join("/");
   const backendUrl = process.env.API_BASE_URL_SERVER;
-  const { path } = context.params;
-  const fullPath = path.join("/");
 
   try {
-    const response = await fetch(`${backendUrl}/${fullPath}`, {
-      method: request.method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: request.headers.get("Authorization"),
-      },
-      body: request.method !== "GET" ? await request.text() : null,
-    });
+    const response = await fetch(
+      `<span class="math-inline">\{backendUrl\}/</span>{path}`,
+      {
+        method: request.method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: request.headers.get("Authorization"),
+        },
+        body: request.method !== "GET" ? await request.text() : null,
+        cache: "no-store",
+      }
+    );
 
-    const data = await response.json();
-    return NextResponse.json(data, { status: response.status });
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      return NextResponse.json(data, { status: response.status });
+    }
+
+    return new NextResponse(null, { status: response.status });
   } catch (error) {
-    return NextResponse.json({ message: "Proxy error" }, { status: 500 });
+    // ==========================================================
+    // PERUBAHAN UTAMA ADA DI SINI: MENAMBAHKAN LOGGING DETAIL
+    // ==========================================================
+    console.error("--- PROXY FETCH ERROR ---");
+    console.error(error); // Log seluruh objek error untuk detail
+    console.error("-------------------------");
+
+    return NextResponse.json(
+      {
+        message: "Proxy error: Could not connect to backend server.",
+        // Menambahkan detail error ke response agar bisa dilihat di browser
+        errorDetails: {
+          message: error.message,
+          cause: error.cause ? error.cause.code : "N/A",
+        },
+      },
+      { status: 502 }
+    );
   }
 }
 
-export const GET = handler;
-export const POST = handler;
-export const PATCH = handler;
+export {
+  handler as GET,
+  handler as POST,
+  handler as PATCH,
+  handler as PUT,
+  handler as DELETE,
+};
