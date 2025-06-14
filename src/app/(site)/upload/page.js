@@ -54,26 +54,20 @@ export default function UploadPage() {
     setResult(null);
 
     const formData = new FormData();
-    formData.append("file", file);
-    const mlApiUrl = "http://47.129.34.209:8080/klasifikasi-sampah";
+    formData.append("image", file);
+
+    const token = localStorage.getItem("authToken");
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/classify`;
 
     try {
-      const mlResponse = await fetch(mlApiUrl, {
-        method: "POST",
-        body: formData,
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
       });
-      if (!mlResponse.ok) throw new Error("Klasifikasi ML gagal");
-      const mlResult = await mlResponse.json();
-      setResult(mlResult);
 
-      const token = localStorage.getItem("authToken");
-      const backendApiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/classifications`;
-      await axios.post(
-        backendApiUrl,
-        { category: mlResult.Kategori, type: mlResult.Jenis },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
+      setResult(response.data); // Tampilkan hasil dari backend kita
       Swal.fire(
         "Sukses!",
         "Poin berhasil ditambahkan ke akun Anda.",
@@ -81,8 +75,10 @@ export default function UploadPage() {
       );
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
-      Swal.fire("Oops...", "Terjadi kesalahan saat klasifikasi.", "error");
-      setResult({ Error: "Gagal melakukan klasifikasi." });
+      const message =
+        error.response?.data?.message || "Gagal melakukan klasifikasi.";
+      Swal.fire("Oops...", message, "error");
+      setResult({ Error: message });
     } finally {
       setLoading(false);
     }
