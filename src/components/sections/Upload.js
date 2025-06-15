@@ -52,7 +52,7 @@ export default function Upload() {
           <div className="mt-10">
             <Link
               href="/upload"
-              className="rounded-md bg-green-700 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+              className="rounded-md bg-green-700 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-green-700"
             >
               Mulai Klasifikasi Sekarang
             </Link>

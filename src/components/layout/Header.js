@@ -108,7 +108,7 @@ export default function Header() {
               </Link>
               <Link
                 href="/register"
-                className="rounded-md bg-yellow-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 transition-colors"
+                className="rounded-md w-fit bg-yellow-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 transition-colors"
               >
                 Sign Up
               </Link>
@@ -180,7 +180,7 @@ export default function Header() {
                   </Link>
                   <Link
                     href="/register"
-                    className="block py-3 px-4 text-lg font-semibold text-white bg-yellow-500 hover:bg-gray-100 rounded-lg"
+                    className="block w-fit py-3 px-4 text-lg font-semibold text-white bg-yellow-500 hover:bg-gray-100 rounded-lg"
                     onClick={handleLinkClick}
                   >
                     Sign Up

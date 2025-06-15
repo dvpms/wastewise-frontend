@@ -35,31 +35,31 @@ const team = [
     name: "Absana Mutiara Nabila",
     role: "Machine Learning",
     university: "Universitas Jenderal Soedirman",
-    imageUrl: "/profile-placeholder.png", // Placeholder image
+    imageUrl: "/images/team/absana-mutiara.jpg",
   },
   {
     name: "Dwi Sandi Kalla",
     role: "Machine Learning",
     university: "Universitas Jenderal Soedirman",
-    imageUrl: "/profile-placeholder.png",
+    imageUrl: "/images/team/dwi-sandi.jpg",
   },
   {
     name: "Meicha Salsabila Budiyanti",
     role: "Machine Learning",
     university: "Universitas Jenderal Soedirman",
-    imageUrl: "/profile-placeholder.png",
+    imageUrl: "/images/team/meicha-salsabila.jpg",
   },
   {
     name: "Devran Perdana Malik",
     role: "Front-End & Back-End",
     university: "Universitas Pramita Indonesia",
-    imageUrl: "/profile-placeholder.png",
+    imageUrl: "/images/team/devran-perdana.jpeg",
   },
   {
     name: "Fadiyah Adilah Yusuf",
     role: "Front-End",
     university: "Universitas Negeri Makassar",
-    imageUrl: "/profile-placeholder.png",
+    imageUrl: "/images/team/fadiyah-adilah.jpg",
   },
 ];
 
@@ -161,7 +161,7 @@ export default function AboutUsPage() {
                 className="text-center bg-white p-6 rounded-lg shadow-md"
               >
                 <Image
-                  className="mx-auto h-24 w-24 rounded-full"
+                  className="mx-auto h-24 w-24 rounded-full object-cover"
                   width={100}
                   height={100}
                   src={person.imageUrl}

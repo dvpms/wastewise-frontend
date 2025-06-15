@@ -69,7 +69,7 @@ export default function UploadPage() {
       setResult(response.data);
       Swal.fire(
         "Sukses!",
-        "Poin berhasil ditambahkan ke akun Anda.",
+        `Anda mendapatkan ${response.data.points},`,
         "success"
       );
     } catch (error) {
@@ -86,6 +86,7 @@ export default function UploadPage() {
   if (authLoading || !user) {
     return <div className="text-center p-10">Loading...</div>;
   }
+  console.log(result);
 
   return (
     // Area dropzone mencakup seluruh halaman
@@ -96,7 +97,6 @@ export default function UploadPage() {
       })}
     >
       <input {...getInputProps()} />
-
       {/* Tampilan sebelum ada file */}
       {!file && (
         <>
@@ -115,7 +115,6 @@ export default function UploadPage() {
           </p>
         </>
       )}
-
       {/* Tampilan setelah ada file */}
       {file && (
         <div className="w-full max-w-lg">
@@ -144,34 +143,57 @@ export default function UploadPage() {
           </button>
         </div>
       )}
-
       {/* Tampilan Hasil Klasifikasi */}
       {result && (
-        <div className="mt-8 w-full max-w-lg p-6 border rounded-lg bg-white shadow-lg text-left">
-          <h3 className="font-bold text-lg flex items-center">
-            <SparklesIcon className="h-5 w-5 mr-2 text-yellow-500" />
-            Hasil Klasifikasi:
+        <div className="mt-8 w-full max-w-lg p-8 border-2 rounded-xl bg-gradient-to-br from-white to-blue-50 shadow-xl text-left transform transition-all hover:scale-[1.02]">
+          <h3 className="font-bold text-2xl flex items-center text-blue-700 mb-4">
+            <SparklesIcon className="h-6 w-6 mr-3 text-yellow-500 animate-pulse" />
+            Hasil Klasifikasi
           </h3>
           {result.Error ? (
-            <p className="text-red-600 mt-2">{result.Error}</p>
+            <div className="bg-red-50 p-4 rounded-lg">
+              <p className="text-red-600 font-medium">{result.Error}</p>
+            </div>
           ) : (
-            <ul className="list-disc list-inside mt-2 space-y-2 text-gray-700">
-              <li>
-                <strong>Kategori:</strong> {result.Kategori}
-              </li>
-              <li>
-                <strong>Jenis:</strong> {result.Jenis}
-              </li>
-              <li>
-                <strong>Probabilitas:</strong> {result.Probabilitas}
-              </li>
-              <li className="mt-2 pt-2 border-t">
-                <strong>Saran:</strong> {result["Saran dari Gemini"]}
-              </li>
-            </ul>
+            <div className="space-y-4">
+              <div className="bg-blue-50 p-4 rounded-lg hover:bg-blue-100 transition-colors">
+                <p className="flex items-center">
+                  <span className="font-semibold text-blue-800 w-32">
+                    Kategori:
+                  </span>
+                  <span className="text-gray-700">{result.Kategori}</span>
+                </p>
+              </div>
+              <div className="bg-green-50 p-4 rounded-lg hover:bg-green-100 transition-colors">
+                <p className="flex items-center">
+                  <span className="font-semibold text-green-800 w-32">
+                    Jenis:
+                  </span>
+                  <span className="text-gray-700">{result.Jenis}</span>
+                </p>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg hover:bg-purple-100 transition-colors">
+                <p className="flex items-center">
+                  <span className="font-semibold text-purple-800 w-32">
+                    Probabilitas:
+                  </span>
+                  <span className="text-gray-700">{result.Probabilitas}</span>
+                </p>
+              </div>
+              <div className="mt-6 bg-yellow-50 p-6 rounded-lg border border-yellow-200 hover:bg-yellow-100 transition-colors">
+                <p className="flex items-start">
+                  <span className="font-semibold text-yellow-800 w-32">
+                    Saran:{" "}
+                  </span>
+                  <span className="text-gray-700">
+                    {result["Saran dari Gemini"]}
+                  </span>
+                </p>
+              </div>
+            </div>
           )}
         </div>
-      )}
+      )}{" "}
     </div>
   );
 }
