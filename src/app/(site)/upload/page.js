@@ -69,7 +69,7 @@ export default function UploadPage() {
       setResult(response.data);
       Swal.fire(
         "Sukses!",
-        `Anda mendapatkan ${response.data.points},`,
+        `Anda mendapatkan ${response.data.pointsAwarded} poin`,
         "success"
       );
     } catch (error) {
