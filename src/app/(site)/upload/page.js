@@ -175,7 +175,7 @@ export default function UploadPage() {
               <div className="bg-purple-50 p-4 rounded-lg hover:bg-purple-100 transition-colors">
                 <p className="flex items-center">
                   <span className="font-semibold text-purple-800 w-32">
-                    Probabilitas:
+                    Akurasi:
                   </span>
                   <span className="text-gray-700">{result.Probabilitas}</span>
                 </p>
