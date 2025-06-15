@@ -181,11 +181,11 @@ export default function UploadPage() {
                 </p>
               </div>
               <div className="mt-6 bg-yellow-50 p-6 rounded-lg border border-yellow-200 hover:bg-yellow-100 transition-colors">
-                <p className="flex items-start">
+                <p className="flex items-start flex-col">
                   <span className="font-semibold text-yellow-800 w-32">
-                    Saran:{" "}
+                    Saran:
                   </span>
-                  <span className="text-gray-700">
+                  <span className="text-gray-700 block">
                     {result["Saran dari Gemini"]}
                   </span>
                 </p>
