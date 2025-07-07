@@ -66,6 +66,8 @@ export default function UploadPage() {
         },
       });
 
+      console.log("Response:", response.data);
+
       setResult(response.data);
       Swal.fire(
         "Sukses!",
@@ -186,7 +188,7 @@ export default function UploadPage() {
                     Saran:
                   </span>
                   <span className="text-gray-700 block">
-                    {result["Saran dari Gemini"]}
+                    {result["Saran"]}
                   </span>
                 </p>
               </div>
